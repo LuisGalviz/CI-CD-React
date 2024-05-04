@@ -4,12 +4,9 @@ on:
   push:
     branches:
       - main
-env:
-  CI: false
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,9 +19,9 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v1.5.0
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy --token "$FIREBASE_TOKEN"
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: "especializacion-f9d16"
+          channelId: live
